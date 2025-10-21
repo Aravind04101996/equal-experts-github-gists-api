@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-gists-deployment
+  namespace: github-gists
+  labels:
+    name: github-gists
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      name: github-gists
+  template:
+    metadata:
+      labels:
+        name: github-gists
+    spec:
+      containers:
+      - name: github-gists
+        image: 041096/github-gists:1.0.0
+        ports:
+        - containerPort: 8080

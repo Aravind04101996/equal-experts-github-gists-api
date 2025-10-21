@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: github-gists-nodeport-service
+  namespace: github-gists
+  labels:
+    name: github-gists-nodeport-servuce
+spec:
+  type: NodePort
+  selector:
+    name: github-gists
+  ports:
+   - port: 8080
+     targetPort: 8080
+     nodePort: 30007
