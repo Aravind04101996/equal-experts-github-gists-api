@@ -1,0 +1,11 @@
+-
+  name: Deploy a docker container and configure github-gists-api web server # Name of Playbook
+  hosts: localhost # Execute this playbook in hosts defined in inventory file
+  roles:
+    - role: github-gists-api-role
+      vars:
+        image: "041096/github-gists"
+        container_name: "github-gists-api"
+        host_port: "8080"
+        container_port: "8080"
+        tag: "1.0.0"

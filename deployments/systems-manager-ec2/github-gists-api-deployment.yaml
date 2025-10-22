@@ -1,0 +1,35 @@
+---
+schemaVersion: '2.2'
+description: Deploy github-gists-api Application in EC2 as docker container
+parameters: 
+  Region:
+    type: String
+    description: 'AWS Region of the ECR repository'
+    default: 'us-west-2'
+  AccountID:
+    type: String
+    description: 'AWS Account ID'
+    default: '848606181553'
+  ServiceName:
+    type: String
+    description: 'Name of the Service'
+    default: 'github-gists-api'
+  ImageVersion:
+    type: String
+    description: 'Image Version'
+    default: '1.0.0'
+  Port:
+    type: String
+    description: 'Port where the application runs'
+    default: '8080'
+mainSteps:
+- action: aws:runShellScript
+  name: DeployApplication
+  inputs:
+    runCommand:
+    # Login to ECR
+    #- aws ecr get-login-password --region {{ Region }} | docker login --username AWS --password-stdin {{ AccountID }}.dkr.ecr.{{ Region }}.amazonaws.com/inara/{{ ServiceName }}
+    # Stop and clean if any existing containers running on the same
+    - docker stop {{ ServiceName }} || true && docker rm {{ ServiceName }} || true
+    # Run a container with the specified docker image
+    - docker run -d --name {{ ServiceName }} -p {{ Port }}:{{ Port }} --restart unless-stopped 041096/github-gists:{{ ImageVersion }}

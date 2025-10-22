@@ -1,0 +1,8 @@
+image: 041096/github-gists
+container_name: github-gists-api
+log_driver: awslogs
+aws_region: us-west-2
+aws_log_group: github-gists-cwlogs
+host_port: 8080
+container_port: 8080
+tag: 1.0.0

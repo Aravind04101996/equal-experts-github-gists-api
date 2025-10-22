@@ -1,0 +1,11 @@
+- name: Deploy a docker container and configure github-gists-api web server. 
+  docker_container:
+    image: "{{ image }}:{{ tag }}"
+    log_driver: "{{ log_driver }}"
+    log_options: 
+      awslogs-region: "{{ aws_region }}"
+      awslogs-group: "{{ aws_log_group }}"
+    name: "{{ container_name }}"
+    ports:
+    - "{{host_port }}:{{ container_port }}"
+  
