@@ -1,6 +1,6 @@
 name: Build, Publish Docker image to ECR
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       ecrrepo:
         description: "Name of the ECR Repository"
