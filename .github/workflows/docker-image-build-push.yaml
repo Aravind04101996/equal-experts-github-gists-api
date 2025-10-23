@@ -28,6 +28,10 @@ jobs:
               role-to-assume: ${{ secrets.IAM_ROLE_TO_ASSUME }}
               role-session-name: ecr-image-push
               aws-region: us-west-2
+        
+          - name: AWS STS Get Caller Identity
+            run: |
+               aws sts get-caller-identity
 
 
   
