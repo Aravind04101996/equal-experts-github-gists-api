@@ -28,11 +28,19 @@ jobs:
               role-to-assume: ${{ secrets.IAM_ROLE_TO_ASSUME }}
               role-session-name: ecr-image-push
               aws-region: us-west-2
-        
-          - name: AWS STS Get Caller Identity
+    
+          - name: Login to Amazon ECR
+            id: login-ecr
+            uses: aws-actions/amazon-ecr-login@v2
+          
+          - name: Build Docker Image & Publish to ECR
+            env:
+              ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+              ECR_REPOSITORY: github-gists-api
+              IMAGE_TAG: '1.0.0'
             run: |
-               aws sts get-caller-identity
-               aws iam list-roles
+              docker build $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+              docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
 
   
