@@ -1,0 +1,26 @@
+name: Build, Publish Docker image to ECR
+on:
+  workflow_call:
+    inputs:
+      ecrrepo:
+        description: "Name of the ECR Repository"
+        type: string
+        default: github-gists-api
+        required: false
+jobs:
+    build_docker_image:
+        name: build_docker_image
+        runs-on: ubuntu-latest
+
+        permissions:
+          id-token: write
+          contents: read
+        
+        steps:
+          - name: Checkout Repo
+            uses: actions/checkout@v5
+            with:
+                ref: main
+
+
+  
