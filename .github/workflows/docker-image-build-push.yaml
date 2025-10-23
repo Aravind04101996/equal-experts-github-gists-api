@@ -32,6 +32,7 @@ jobs:
           - name: AWS STS Get Caller Identity
             run: |
                aws sts get-caller-identity
+               aws iam list-roles
 
 
   
