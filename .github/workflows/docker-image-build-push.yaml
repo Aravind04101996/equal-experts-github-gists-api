@@ -39,7 +39,7 @@ jobs:
               ECR_REPOSITORY: github-gists-api
               IMAGE_TAG: '1.0.0'
             run: |
-              docker build $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+              docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
               docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
 
