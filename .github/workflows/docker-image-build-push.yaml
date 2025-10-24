@@ -37,14 +37,31 @@ jobs:
             id: app-version
             run: |
               echo "version=$(cat version)" >> $GITHUB_OUTPUT
-          
-          - name: Build Docker Image & Publish to ECR
+            
+          - name: Build Docker Image
             env:
               ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
               ECR_REPOSITORY: github-gists-api
               IMAGE_TAG: ${{ steps.app-version.outputs.version }}
             run: |
               docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          
+          - name: Run Trivy Scan
+            uses: aquasecurity/trivy-action@0.33.1
+            with:
+              image-ref: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+              format: 'table'
+              exit-code: '1'
+              ignore-unfixed: true
+              vuln-type: 'os,library'
+              severity: 'CRITICAL,HIGH'
+          
+          - name: Publish to ECR
+            env:
+              ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+              ECR_REPOSITORY: github-gists-api
+              IMAGE_TAG: ${{ steps.app-version.outputs.version }}
+            run: |
               docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
 
